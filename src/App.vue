@@ -42,4 +42,7 @@
 </script>
 <style lang="scss">
     @import "assets/css/reset.css";
+    #app {
+        padding-bottom: 52px;
+    }
 </style>
