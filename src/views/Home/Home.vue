@@ -38,7 +38,7 @@
     //get 请求
     // type: sell / pop  String  N非必传
     //page: 1            Int     N非必传
-    import ajax from '../../api';
+    import axios from '../../api';
     import VueBetterScroll from '../../components/Scroll'
 
     export default {
@@ -78,17 +78,20 @@
         },
         methods: {
             async getHomeList(pageIndex) {
-                const url = 'https://nfxts.520shq.com/localQuickPurchase/selectionGoods/v2/selectionGoodsCom';
-                const res = await ajax.post(url, {
-                    columnName: "每日上新",
-                    pageIndex,
-                    pageSize: 10
+                //https://nfxts.520shq.com/localQuickPurchase/ogMongoAction/queryByGId?genreId=1&pageSize=5&pageIndex=11
+                //const url = 'https://nfxts.520shq.com/localQuickPurchase/selectionGoods/v2/selectionGoodsCom';
+                const url = 'https://nfxts.520shq.com/localQuickPurchase/ogMongoAction/queryByGId?genreId=1';
+                const res = await axios.get(url, {
+                        params:{
+                            pageIndex,
+                            pageSize: 10
+                        }
                 });
 
                 // console.log(res, '222222222222222');
                 if (res.code === 200) {
                     this.pageIndex++;
-                    this.goodsList.push(...res.data);
+                    this.goodsList.push(...res.data.list);
                     this.$refs.scroll.forceUpdate(true)
                 }
             },
