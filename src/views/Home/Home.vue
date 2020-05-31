@@ -56,7 +56,7 @@
             },
             // 这个配置用于做上拉加载功能，默认为 false。当设置为 true 或者是一个 Object 的时候，可以开启上拉加载，可以配置离底部距离阈值（threshold）来决定开始加载的时机
             pullUpLoadObj: {
-                threshold: 0,
+                threshold: 10,
                 txt: {
                     more: '加载更多...',
                     noMore: '没有更多数据啦'
@@ -92,7 +92,13 @@
                 if (res.code === 200) {
                     this.pageIndex++;
                     this.goodsList.push(...res.data.list);
-                    this.$refs.scroll.forceUpdate(true)
+                    // res.data.hasNextPage && this.$refs.scroll.forceUpdate(true)
+                    if (res.data.hasNextPage) {
+                        this.$refs.scroll.forceUpdate(true);
+                    } else {
+                        //没有更多数据了
+                        this.$refs.scroll.forceUpdate(false);
+                    }
                 }
             },
 
@@ -153,17 +159,20 @@
             border: 1px solid #eee;
             box-shadow: 0 0 5px #cecece;
             border-radius: 5px;
-
+            box-sizing: border-box;
+            padding: 2px;
             img {
                 width: 100%;
             }
 
             .title {
                 font-size: 14px;
+                padding: 2px;
                 color: #666;
                 overflow: hidden;
                 text-overflow: ellipsis;
                 display: -webkit-box;
+                line-height: 20px;
                 -webkit-line-clamp: 2;
                 -webkit-box-orient: vertical;
             }
